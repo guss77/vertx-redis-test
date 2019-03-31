@@ -1,0 +1,19 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/vertx-redis-test
+    docker:
+      - image: circleci/openjdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: vertx-redis-test-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: vertx-redis-test-{{ checksum "pom.xml" }}
+      - run: mvn test
+      - store_test_results:
+          path: target/surefire-reports
