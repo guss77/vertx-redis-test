@@ -19,7 +19,7 @@ import io.vertx.redis.RedisOptions;
 
 @Testcontainers
 @ExtendWith(VertxExtension.class)
-class TestRedis {
+public class TestRedis {
 	
 	@Container
 	public RedisContainer redis = new RedisContainer();
