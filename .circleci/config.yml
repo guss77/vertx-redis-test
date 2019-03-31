@@ -3,8 +3,6 @@ executorType: machine
 jobs:
   build:
     working_directory: ~/vertx-redis-test
-    machine:
-      image: circleci/openjdk
     steps:
       - checkout
       - restore_cache:
@@ -14,6 +12,6 @@ jobs:
           paths:
             - ~/.m2
           key: vertx-redis-test-{{ checksum "pom.xml" }}
-      - run: mvn test
+      - run: docker run -a stdout -a stderr -w /app -v ${PWD}:/app -v ~/.m2:/root/.m2 -v /var/run/docker.sock:/var/run/docker.sock maven mvn test
       - store_test_results:
           path: target/surefire-reports
